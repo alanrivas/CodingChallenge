@@ -56,12 +56,14 @@
     <Compile Include="Classes\Figuras\Cuadrado.cs" />
     <Compile Include="Classes\Figuras\FormaGeometrica.cs" />
     <Compile Include="Classes\FormasFactory.cs" />
+    <Compile Include="Classes\Idiomas.cs" />
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Classes\Enums\FormaGeometricaEnum.cs" />
     <Compile Include="Classes\Enums\IdiomaEnum.cs" />
     <Compile Include="Classes\IFormaGeometrica.cs" />
     <Compile Include="Classes\Resultado.cs" />
     <Compile Include="Classes\Figuras\TrianguloEquilatero.cs" />
+    <Compile Include="Classes\Traductor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

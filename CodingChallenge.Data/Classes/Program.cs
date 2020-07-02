@@ -29,34 +29,24 @@ namespace CodingChallenge.Data.Classes
             }
             else
             {
-                // Hay por lo menos una forma
-                // HEADER
-                if (idioma == IdiomaEnum.Castellano)
-                    sb.Append("<h1>Reporte de Formas</h1>");
-                else
-                    // default es inglés
-                    sb.Append("<h1>Shapes report</h1>");
+                sb.Append(Traductor.traducirEncabezado(idioma));
 
                 var listaFiguras = Enum.GetValues(typeof(FormaGeometricaEnum)).Cast<FormaGeometricaEnum>();
+                var resultadoTotal = new Resultado();
+                resultadoTotal.Idioma = idioma;
 
-                var cantidadTotal = 0;
-                var perimetroTotal = 0m;
-                var areaTotal = 0m;
                 foreach (var figura in listaFiguras)
                 {
                     var resultado = calcularSegunTipo(formas, figura);
                     resultado.Idioma = idioma;
-                    sb.Append(ObtenerLinea(resultado));
-                    cantidadTotal += resultado.Cantidad;
-                    perimetroTotal += resultado.PerimetroTotal;
-                    areaTotal += resultado.AreaTotal;
-                }               
+                    sb.Append(Idiomas.traducirLinea(resultado));
+                    resultadoTotal.Cantidad += resultado.Cantidad;
+                    resultadoTotal.PerimetroTotal += resultado.PerimetroTotal;
+                    resultadoTotal.AreaTotal += resultado.AreaTotal;
+                }
 
                 // FOOTER
-                sb.Append("TOTAL:<br/>");
-                sb.Append(cantidadTotal + " " + (idioma == IdiomaEnum.Castellano ? "formas" : "shapes") + " ");
-                sb.Append((idioma == IdiomaEnum.Castellano ? "Perimetro " : "Perimeter ") + (perimetroTotal).ToString("#.##") + " ");
-                sb.Append("Area " + (areaTotal).ToString("#.##"));
+                sb.Append(Traductor.traducirFooter(resultadoTotal));
             }
 
             return sb.ToString();
@@ -74,36 +64,7 @@ namespace CodingChallenge.Data.Classes
             return resultado;
         }
 
-        private static string ObtenerLinea(Resultado resultado)
-        {
-            if (resultado.Cantidad > 0)
-            {
-                if (resultado.Idioma == IdiomaEnum.Castellano)
-                    return $"{resultado.Cantidad} {TraducirForma(resultado)} | Area {resultado.AreaTotal:#.##} | Perimetro {resultado.PerimetroTotal:#.##} <br/>";
-
-                return $"{resultado.Cantidad} {TraducirForma(resultado)} | Area {resultado.AreaTotal:#.##} | Perimeter {resultado.PerimetroTotal:#.##} <br/>";
-            }
-
-            return string.Empty;
-        }
-
-        private static string TraducirForma(Resultado resultado)
-        {
-            switch (resultado.TipoFigura)
-            {
-                case FormaGeometricaEnum.Cuadrado:
-                    if (resultado.Idioma == IdiomaEnum.Castellano) return resultado.Cantidad == 1 ? "Cuadrado" : "Cuadrados";
-                    else return resultado.Cantidad == 1 ? "Square" : "Squares";
-                case FormaGeometricaEnum.Circulo:
-                    if (resultado.Idioma == IdiomaEnum.Castellano) return resultado.Cantidad == 1 ? "Círculo" : "Círculos";
-                    else return resultado.Cantidad == 1 ? "Circle" : "Circles";
-                case FormaGeometricaEnum.TrianguloEquilatero:
-                    if (resultado.Idioma == IdiomaEnum.Castellano) return resultado.Cantidad == 1 ? "Triángulo" : "Triángulos";
-                    else return resultado.Cantidad == 1 ? "Triangle" : "Triangles";
-            }
-
-            return string.Empty;
-        }
+       
 
 
     }
